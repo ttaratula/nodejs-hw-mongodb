@@ -2,34 +2,37 @@ import express from 'express';
 import cors from 'cors';
 import pino from 'pino-http';
 
-import { getAllContactsController, getContactByIdController } from './controllers/contacts.js';
+import contactsRouter from './routers/contacts.js'; // <-- нове
+// Можна видалити імпорти контролерів
+
+import { errorHandler } from './middlewares/errorHandler.js';
+import { notFoundHandler } from './middlewares/notFoundHandler.js';
+
 
 export function setupServer() {
   const app = express();
 
   app.use(cors());
   app.use(pino());
-  app.use(express.json()); // важливо для парсингу JSON
+  app.use(express.json());
 
-  // Крок 5 — всі контакти
-  app.get('/contacts', getAllContactsController);
-
-  // Крок 6 — контакт по ID
-  app.get('/contacts/:contactId', getContactByIdController);
-
+  // Підключаємо всі маршрути для /contacts
+  app.use('/contacts', contactsRouter);
 
   app.get('/', (req, res) => {
     res.json({ message: 'Server is running' });
   });
 
+  // Обробка неіснуючих маршрутів (тимчасово, згодом винесемо в notFoundHandler)
   app.use((req, res) => {
     res.status(404).json({ message: 'Not found' });
   });
+
+  app.use(notFoundHandler);  
+  app.use(errorHandler); 
 
   const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
 }
-
-
