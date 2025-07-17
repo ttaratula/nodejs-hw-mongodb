@@ -13,7 +13,8 @@ router.get('/', getAllContactsController);
 router.get('/:contactId', getContactByIdController);
 router.post('/', createContactController); 
 router.patch('/:contactId', updateContactController);
-router.delete('/contacts/:contactId', deleteContactController);
+router.delete('/:contactId', deleteContactController);
+
 
 export default router;
 
