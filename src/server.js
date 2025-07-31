@@ -2,11 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import pino from 'pino-http';
 
-import contactsRouter from './routers/contacts.js'; // <-- нове
-// Можна видалити імпорти контролерів
-
-import { errorHandler } from './middlewares/errorHandler.js';
-import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import contactsRouter from './routers/contacts.js'; 
+import { errorHandler } from './ middlewares/errorHandler.js';
+import { notFoundHandler } from './ middlewares/notFoundHandler.js';
 
 
 export function setupServer() {
@@ -23,10 +21,9 @@ export function setupServer() {
     res.json({ message: 'Server is running' });
   });
 
-  // Обробка неіснуючих маршрутів (тимчасово, згодом винесемо в notFoundHandler)
-  app.use((req, res) => {
-    res.status(404).json({ message: 'Not found' });
-  });
+  // app.use((req, res) => {
+  //   res.status(404).json({ message: 'Not found' });
+  // });
 
   app.use(notFoundHandler);  
   app.use(errorHandler); 
