@@ -21,4 +21,4 @@ const userSchema = new mongoose.Schema(
   { timestamps: true } // створить createdAt і updatedAt 
 );
 
-export const User = mongoose.model('User', userSchema);
+export const User = mongoose.model('user', userSchema);
