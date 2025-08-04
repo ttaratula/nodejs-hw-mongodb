@@ -28,7 +28,7 @@ export const registerUser = async ({ name, email, password }) => {
 };
 
 export const loginUser = async ({ email, password }) => {
-    const user = await user.findOne({ email });
+    const user = await User.findOne({ email });
   
     if (!user) {
       throw createHttpError(401, 'Invalid email or password');
@@ -78,7 +78,7 @@ export const refreshSession = async (oldRefreshToken) => {
     }
   
     // Знайти користувача
-    const user = await user.findById(session.userId);
+    const user = await User.findById(session.userId);
     if (!user) {
         console.warn('⚠️ Користувач не знайдений'); // 👈
       throw createHttpError(401, 'User not found');
