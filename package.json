@@ -13,8 +13,8 @@
   "author": "Alexander Repeta <a.repeta@goit.global>",
   "license": "ISC",
   "_moduleAliases": {
-    "@models": "src/models",
-    "@services": "src/services"
+    "@models": "models",
+    "@services": "services"
   },
   "devDependencies": {
     "@eslint/js": "^9.2.0",
