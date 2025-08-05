@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint **/*.js",
-    "start": "node ndex.js",
+    "start": "node index.js",
     "dev": "nodemon index.js"
   },
   "keywords": [],

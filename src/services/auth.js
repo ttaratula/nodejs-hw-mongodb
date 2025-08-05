@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import createError from 'http-errors';
 import createHttpError from 'http-errors';
-import User  from '../models/User.js';
+import User from '../models/User.js';
 import Session from '../models/session.js';
 // import { User } from '@models/User.js';
 // import { Session } from '@models/session.js';
