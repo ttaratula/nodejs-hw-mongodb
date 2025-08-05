@@ -46,8 +46,6 @@ export const loginUserController = async (req, res) => {
   export const refreshSessionController = async (req, res, next) => {
     try {
       const { refreshToken } = req.cookies;
-      console.log('REFRESH TOKEN:', refreshToken);
-      console.log('🪙 Отриманий refreshToken з cookies:', refreshToken); // 👈
 
       if (!refreshToken) {
         throw createHttpError(401, 'Refresh token missing');
@@ -69,7 +67,6 @@ export const loginUserController = async (req, res) => {
           data: { accessToken },
         });
     } catch (error) {
-        console.error('❌ refreshSessionController error:', error); // 👈
       next(error);
     }
 };
