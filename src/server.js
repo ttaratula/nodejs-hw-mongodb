@@ -14,6 +14,7 @@ export function setupServer() {
   app.use(cors());
   app.use(pino());
   app.use(express.json());
+  app.use(cookieParser());
 
   // Підключаємо всі маршрути 
   app.use('/auth', authRouter); 
@@ -31,5 +32,4 @@ export function setupServer() {
     console.log(`Server is running on port ${PORT}`);
   });
 
-  app.use(cookieParser());
 }
