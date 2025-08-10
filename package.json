@@ -8,7 +8,6 @@
     "lint": "eslint **/*.js",
     "start": "node index.js",
     "dev": "nodemon src/index.js"
-
   },
   "keywords": [],
   "author": "Alexander Repeta <a.repeta@goit.global>",
@@ -34,6 +33,9 @@
     "jsonwebtoken": "^9.0.2",
     "module-alias": "^2.2.3",
     "mongoose": "^8.16.2",
+    "multer": "^2.0.2",
+    "multer-storage-cloudinary": "^4.0.0",
+    "nodemailer": "^7.0.5",
     "pino": "^9.7.0",
     "pino-http": "^10.5.0"
   }

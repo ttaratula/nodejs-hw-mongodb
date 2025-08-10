@@ -2,12 +2,12 @@ import express from 'express';
 import {
   getAllContactsController,
   getContactByIdController,
-  createContactController, 
+  createContactController,
   updateContactController,
   deleteContactController,
 } from '../controllers/contacts.js';
 
-import {validateBody} from "../middlewares/validateBody.js";
+import { validateBody } from "../middlewares/validateBody.js";
 import { isValidId } from "../middlewares/isValidId.js";
 import {
   createContactSchema,
@@ -15,15 +15,21 @@ import {
 } from '../validations/contactSchemas.js';
 import { authenticate } from '../middlewares/authenticate.js';
 
+// Імпортуємо multer middleware для завантаження фото
+import upload from '../config/multer.js';
+
 const router = express.Router();
 
 router.use(authenticate);
 
 router.get('/', getAllContactsController);
 router.get('/:contactId', isValidId, getContactByIdController);
-router.post('/', validateBody(createContactSchema), createContactController); 
-router.patch('/:contactId', isValidId, validateBody(updateContactSchema), updateContactController);
-// router.post('/register', validateBody(registerSchema), registerController);
+
+// Додаємо upload.single("photo") для завантаження файлу
+router.post('/', upload.single("photo"), validateBody(createContactSchema), createContactController);
+
+router.patch('/:contactId', isValidId, upload.single("photo"), validateBody(updateContactSchema), updateContactController);
+
 router.delete('/:contactId', isValidId, deleteContactController);
 
 export default router;

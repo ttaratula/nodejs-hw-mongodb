@@ -6,6 +6,7 @@ import createHttpError from 'http-errors';
 
 export const registerController = async (req, res, next) => {
   try {
+    const photo = req.file?.path || "";
     const user = await registerUser(req.body);
 
     res.status(201).json({
@@ -94,3 +95,5 @@ export const logoutUserController = async (req, res, next) => {
     next(error);
   }
 };
+
+
