@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import createHttpError from "http-errors";
 import  User  from "../models/user.js";
-import sendEmail from "../services/email.js";
+import {sendEmail} from "../services/email.js";
 
 export const sendResetEmail = async (req, res, next) => {
   try {

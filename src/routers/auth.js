@@ -9,6 +9,9 @@ import { sendResetEmail } from '../controllers/sendResetEmail.js';
 import { registerSchema, loginUserSchema } from '../validations/authSchemas.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { resetPasswordController } from '../controllers/resetPassword.js';
+import upload from '../config/multer.js'; 
+
+import {createContactController, patchContactController} from "../controllers/contacts.js";
 
 // Якщо є схема для валідації email:
 import Joi from "joi";
@@ -25,7 +28,25 @@ const resetPwdSchema = Joi.object({
 const router = express.Router();
 
 // Реєстрація нового користувача
-router.post('/register', validateBody(registerSchema), registerController);
+router.post(
+  '/register', 
+  upload.single('photo'), // "photo" — це назва поля з Postman
+  validateBody(registerSchema), 
+  registerController
+);
+
+router.post(
+  '/',
+  upload.single('photo'), // додано multer для одного файлу photo
+  createContactController
+);
+
+router.patch(
+  '/:contactId',
+  upload.single('photo'), // multer для оновлення фото
+  patchContactController
+);
+
 
 // Логін користувача
 router.post('/login', validateBody(loginUserSchema), loginUserController);
@@ -40,5 +61,6 @@ router.post('/logout', logoutUserController);
 router.post('/send-reset-email', validateBody(emailSchema), sendResetEmail);
 
 router.post('/reset-pwd', validateBody(resetPwdSchema), resetPasswordController);
+
 
 export default router;

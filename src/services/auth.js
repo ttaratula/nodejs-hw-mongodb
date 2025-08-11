@@ -11,7 +11,7 @@ dotenv.config();
 const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET;
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
 
-export const registerUser = async ({ name, email, password }) => {
+export const registerUser = async ({ name, email, password, photo }) => {
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     throw createError(409, 'Email in use');
@@ -23,6 +23,7 @@ export const registerUser = async ({ name, email, password }) => {
     name,
     email,
     password: hashedPassword,
+    photo,
   });
 
   return newUser;
