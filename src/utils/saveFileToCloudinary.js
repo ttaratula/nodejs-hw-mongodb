@@ -28,6 +28,7 @@ try {
   const cloudName = getEnvVar(CLOUDINARY.CLOUD_NAME);
   const apiKey = getEnvVar(CLOUDINARY.API_KEY);
   const apiSecret = getEnvVar(CLOUDINARY.API_SECRET);
+  
 
   cloudinary.v2.config({
     secure: true,
