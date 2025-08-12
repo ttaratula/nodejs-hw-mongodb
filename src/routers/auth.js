@@ -6,23 +6,12 @@ import {
   logoutUserController 
 } from '../controllers/auth.js';
 import { sendResetEmail } from '../controllers/sendResetEmail.js';
-import { registerSchema, loginUserSchema } from '../validations/authSchemas.js';
+import { registerSchema, loginUserSchema, emailSchema, resetPwdSchema } from '../validations/authSchemas.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { resetPasswordController } from '../controllers/resetPassword.js';
 import upload from '../config/multer.js'; 
 
 import {createContactController, patchContactController} from "../controllers/contacts.js";
-
-// Якщо є схема для валідації email:
-import Joi from "joi";
-const emailSchema = Joi.object({
-  email: Joi.string().email().required(),
-});
-
-const resetPwdSchema = Joi.object({
-    token: Joi.string().required(),
-    password: Joi.string().min(6).required(),
-  });
 
   
 const router = express.Router();

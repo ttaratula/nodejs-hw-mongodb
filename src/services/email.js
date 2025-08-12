@@ -9,37 +9,36 @@ import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
 
 import  User from '../models/user.js'; 
-import { getEnvVar } from '../utils/getEnvVar.js';
-// import { sendEmail } from '../utils/sendMail.js';
 import { SMTP, TEMPLATES_DIR } from '../index.js';
+import {getEnvVar} from '../utils/getEnvVar.js';
+
+const transporter = nodemailer.createTransport({
+  host: getEnvVar('SMTP_HOST'),
+  port: Number(getEnvVar('SMTP_PORT')),
+  secure: getEnvVar('SMTP_SECURE') === 'true', // true для 465, false для інших портів
+  auth: {
+    user: getEnvVar('SMTP_USER'),
+    pass: getEnvVar('SMTP_PASSWORD'),
+  },
+});
 
 export async function sendEmail({ to, subject, html, text }) {
   try {
-    const transporter = nodemailer.createTransport({
-      host: SMTP.SMTP_HOST,
-      port: SMTP.SMTP_PORT,
-      secure: SMTP.SMTP_SECURE,
-      auth: {
-        user: SMTP.SMTP_USER,
-        pass: SMTP.SMTP_PASS,
-      },
+    const info = await transporter.sendMail({
+      from: getEnvVar('SMTP_FROM'),
+      to,
+      subject,
+      text,
+      html,
     });
 
-    const info = await transporter.sendEmail({
-        from: "vmudrij0508@gmail.com", 
-        to: to,                 
-        subject: subject,
-        text: text,
-        html: html,
-    });
-
-    console.log("Message sent:", info.messageId);
+    console.log('Message sent:', info.messageId);
+    return info;
   } catch (error) {
-    console.error("Error sending mail:", error);
+    console.error('Error sending mail:', error);
+    throw error;
   }
 }
-
-// export default sendEmail;
 
 
 // Надсилання листа
