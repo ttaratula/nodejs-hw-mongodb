@@ -1,9 +1,17 @@
-export const getEnvVar = (name) => {
-    const value = process.env[name];
-    if (!value) {
-      throw new Error(`Env variable ${name} is required`);
-    }
-    return value;
-  };
-  
-  
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+export function getEnvVar(key) {
+  if (!key) {
+    throw new Error('Environment variable key is required');
+  }
+
+  const value = process.env[key];
+
+  if (typeof value === 'undefined') {
+    throw new Error(`Environment variable "${key}" is not defined`);
+  }
+
+  return value;
+}

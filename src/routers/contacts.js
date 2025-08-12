@@ -1,35 +1,40 @@
-import express from 'express';
+import { Router } from 'express';
 import {
-  getAllContactsController,
-  getContactByIdController,
   createContactController,
-  updateContactController,
   deleteContactController,
+  getContactByIdController,
+  getContactsController,
+  upsertContactController,
 } from '../controllers/contacts.js';
-
-import { validateBody } from "../middlewares/validateBody.js";
-import { isValidId } from "../middlewares/isValidId.js";
+import { ctrlWrapper } from '../utils/ctrlWrapper.js';
+import { validateBody } from '../middlewares/validateBody.js';
+import { isValidId } from '../middlewares/isValidId.js';
 import {
   createContactSchema,
   updateContactSchema,
-} from '../validations/contactSchemas.js';
+} from '../validation/contacts.js';
 import { authenticate } from '../middlewares/authenticate.js';
+import { upload } from '../middlewares/multer.js';
 
-// Імпортуємо multer middleware для завантаження фото
-import upload from '../config/multer.js';
-
-const router = express.Router();
+const router = Router();
 
 router.use(authenticate);
 
-router.get('/', getAllContactsController);
-router.get('/:contactId', isValidId, getContactByIdController);
-
-// Додаємо upload.single("photo") для завантаження файлу
-router.post('/', upload.single("photo"), validateBody(createContactSchema), createContactController);
-
-router.patch('/:contactId', isValidId, upload.single("photo"), validateBody(updateContactSchema), updateContactController);
-
-router.delete('/:contactId', isValidId, deleteContactController);
+router.get('/', ctrlWrapper(getContactsController));
+router.get('/:contactId', isValidId, ctrlWrapper(getContactByIdController));
+router.post(
+  '/',
+  upload.single('photo'),
+  validateBody(createContactSchema),
+  ctrlWrapper(createContactController),
+);
+router.patch(
+  '/:contactId',
+  isValidId,
+  upload.single('photo'),
+  validateBody(updateContactSchema),
+  ctrlWrapper(upsertContactController),
+);
+router.delete('/:contactId', isValidId, ctrlWrapper(deleteContactController));
 
 export default router;

@@ -1,33 +1,46 @@
-import jwt from 'jsonwebtoken';
 import createHttpError from 'http-errors';
 
-export const authenticate = (req, res, next) => {
-  try {
-    // Читаємо токен з заголовку Authorization
-    const authHeader = req.headers.authorization;
+import { Sessions } from '../db/models/session.js';
+import { Users } from '../db/models/user.js';
 
-    if (!authHeader) {
-      throw createHttpError(401, 'Authorization header missing');
-    }
+export const authenticate = async (req, res, next) => {
+  const authHeader = req.get('Authorization');
 
-    // Токен має бути у форматі "Bearer <token>"
-    const [scheme, token] = authHeader.split(' ');
-
-    if (scheme !== 'Bearer' || !token) {
-      throw createHttpError(401, 'Invalid authorization format');
-    }
-
-    // Перевіряємо access token
-    const payload = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
-
-    // Додаємо інформацію про користувача в об'єкт запиту
-    req.user = {
-      id: payload.userId,
-      email: payload.email,
-    };
-
-    next();
-  } catch (error) {
-    next(createHttpError(401, error.message || 'Unauthorized'));
+  if (!authHeader) {
+    next(createHttpError(401, 'Please provide Authorization header'));
+    return;
   }
+
+  const bearer = authHeader.split(' ')[0];
+  const token = authHeader.split(' ')[1];
+
+  if (bearer !== 'Bearer' || !token) {
+    next(createHttpError(401, 'Auth header should be of type Bearer'));
+    return;
+  }
+
+  const session = await Sessions.findOne({ accessToken: token });
+
+  if (!session) {
+    next(createHttpError(401, 'Session not found'));
+    return;
+  }
+
+  const isAccessTokenExpired =
+    new Date() > new Date(session.accessTokenValidUntil);
+
+  if (isAccessTokenExpired) {
+    next(createHttpError(401, 'Access token expired'));
+  }
+
+  const user = await Users.findById(session.userId);
+
+  if (!user) {
+    next(createHttpError(401));
+    return;
+  }
+
+  req.user = user;
+
+  next();
 };
