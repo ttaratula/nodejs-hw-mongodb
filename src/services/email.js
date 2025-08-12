@@ -12,6 +12,7 @@ import  User from '../models/user.js';
 import { SMTP, TEMPLATES_DIR } from '../index.js';
 import {getEnvVar} from '../utils/getEnvVar.js';
 
+
 const transporter = nodemailer.createTransport({
   host: getEnvVar('SMTP_HOST'),
   port: Number(getEnvVar('SMTP_PORT')),
@@ -25,7 +26,7 @@ const transporter = nodemailer.createTransport({
 export async function sendEmail({ to, subject, html, text }) {
   try {
     const info = await transporter.sendMail({
-      from: getEnvVar('SMTP_FROM'),
+      from: SMTP.SMTP_FROM,
       to,
       subject,
       text,
@@ -46,26 +47,27 @@ export const requestResetToken = async (email) => {
   const user = await User.findOne({ email });
   if (!user) {
     throw createHttpError(404, 'User not found!');
-  }
+}
 
-  const resetToken = jwt.sign(
+const resetToken = jwt.sign(
     { sub: user._id, email },
     getEnvVar('JWT_SECRET'),
     { expiresIn: '5m' }
-  );
+);
 
-  const templatePath = path.join(TEMPLATES_DIR, 'reset-password-email.html');
+const templatePath = path.join(TEMPLATES_DIR, 'reset-password-email.html');
+console.log('Template path:', templatePath);
   const templateSource = await fs.readFile(templatePath, 'utf-8');
   const template = handlebars.compile(templateSource);
 
   const html = template({
-    name: User.name,
+    name: user.name,
     link: `${getEnvVar('APP_DOMAIN')}/reset-password?token=${resetToken}`,
   });
 
   try {
     await sendEmail({
-      from: getEnvVar(SMTP.SMTP_FROM),
+      from: SMTP.SMTP_FROM,
       to: email,
       subject: 'Reset your password',
       html,

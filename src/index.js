@@ -1,4 +1,3 @@
-// import 'module-alias/register';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -18,7 +17,7 @@ export const SMTP = {
   SMTP_PORT: Number(process.env.SMTP_PORT),
   SMTP_SECURE: process.env.SMTP_SECURE,
   SMTP_USER: process.env.SMTP_USER,
-  SMTP_PASS: process.env.SMTP_PASS,
+  SMTP_PASSWORD: process.env.SMTP_PASS,
   SMTP_FROM: process.env.SMTP_FROM,
 };
 
