@@ -1,0 +1,43 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Contacts App
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description: Simple contacts management API
+tags:
+  - name: Contacts
+    description: Operations with contacts
+  - name: Auth
+    description: Authentication operations
+servers:
+  - url: http://localhost:3000
+  - url: https://example.com/api/v1
+paths:
+  /ping:
+    get:
+      operationId: getPing
+      summary: Check API status
+      description: Returns a simple confirmation that the API is running
+      tags:
+        - Test
+      security: [] # означає, що цей ендпоінт не вимагає авторизації
+      responses:
+        '200':
+          description: API is alive
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: pong
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
