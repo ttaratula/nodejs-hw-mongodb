@@ -1,41 +1,64 @@
+# openapi: 3.1.0
+# info:
+#   version: 1.0.0
+#   title: My Contacts
+#   license:
+#     name: Apache 2.0
+#     url: http://www.apache.org/licenses/LICENSE-2.0.html
+#   description: A web application for chatting and exchanging contacts.
+# tags:
+#   - name: Contact
+#     description: Operations about contact.
+# servers:
+#   - url: http://localhost:3000
+#   - url: https://contacts-app-4wpk.onrender.com
+# paths:
+#   /contacts/{contactId}:
+#     get:
+#       $ref: ../swagger/paths/contacts/{contactId}/get.yaml
+#     patch:
+#       $ref: ../swagger/paths/contacts/{contactId}/patch.yaml
+#     delete:
+#       $ref: ../swagger/paths/contacts/{contactId}/delete.yaml
+#   /contacts:
+#     get:
+#       $ref: ../swagger/paths/contacts/get.yaml
+#     post:
+#       $ref: ../swagger/paths/contacts/post.yaml
+# components:
+#   securitySchemes:
+#     bearerAuth:
+#       type: http
+#       scheme: bearer
+
+
 openapi: 3.1.0
 info:
   version: 1.0.0
-  title: Contacts App
+  title: My Contacts
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  description: Simple contacts management API
+  description: A web application for chatting and exchanging contacts.
 tags:
-  - name: Contacts
-    description: Operations with contacts
-  - name: Auth
-    description: Authentication operations
+  - name: Contact
+    description: Operations about contact.
 servers:
   - url: http://localhost:3000
-  - url: https://example.com/api/v1
+  - url: https://contacts-app-4wpk.onrender.com
 paths:
-  /ping:
+  /contacts/{contactId}:
     get:
-      operationId: getPing
-      summary: Check API status
-      description: Returns a simple confirmation that the API is running
-      tags:
-        - Test
-      security: [] # означає, що цей ендпоінт не вимагає авторизації
-      responses:
-        '200':
-          description: API is alive
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                example:
-                  message: pong
-
+      $ref: ../swagger/paths/contacts/{contactId}/get.yaml
+    patch:
+      $ref: ../swagger/paths/contacts/{contactId}/patch.yaml
+    delete:
+      $ref: ../swagger/paths/contacts/{contactId}/delete.yaml
+  /contacts:
+    get:
+      $ref: ../swagger/paths/contacts/get.yaml
+    post:
+      $ref: ../swagger/paths/contacts/post.yaml
 components:
   securitySchemes:
     bearerAuth:
