@@ -97,7 +97,7 @@ export const upsertContactController = async (req, res, next) => {
 
   res.status(200).json({
     status: 200,
-    message: 'Successfully patched a contact!',
+    message: 'Successfully retrieved a contact!',
     data: result.contact,
   });
 };

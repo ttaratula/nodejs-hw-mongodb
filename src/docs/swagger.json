@@ -67,7 +67,7 @@
                       },
                       "message": {
                         "type": "string",
-                        "example": "Successfully patched a contact!"
+                        "example": "Successfully retrieved a contact!"
                       },
                       "data": {
                         "type": "object",
