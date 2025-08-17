@@ -64,7 +64,11 @@ export function setupServer() {
   app.use(cookieParser());
   app.use(express.json());
   app.use('/uploads', express.static(UPLOAD_DIR));
-  app.use('/api-docs', swaggerDocs());
+  // app.use('/api-docs', swaggerDocs());
+
+  const swagger = swaggerDocs();
+  app.use('/api-docs', swagger.serve, swagger.setup);
+
 
   app.use(logger());
 
