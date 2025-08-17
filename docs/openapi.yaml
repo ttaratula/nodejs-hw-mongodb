@@ -7,7 +7,7 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   description: A web application for chatting and exchanging contacts.
 tags:
-  - name: Contact
+  - name: Contacts
     description: Operations about contact.
 servers:
   - url: https://nodejs-hw-mongodb-7-5q1k.onrender.com
