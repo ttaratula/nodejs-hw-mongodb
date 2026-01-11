@@ -1,3 +1,4 @@
+// import 'module-alias/register';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -10,3 +11,4 @@ const start = async () => {
 };
 
 start();
+
